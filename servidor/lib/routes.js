@@ -7,5 +7,5 @@ module.exports = (app) => {
     app.get('/peliculas/recomendacion', recomendador.recomendar);
     app.get('/peliculas', controladorPeliculas.mostrarPeliculas);
     app.get('/generos', controladorGeneros.mostrarGeneros);
-    app.get('/peliculas/:id', controladorPeliculasId.mostrarPeliculasId);  
+    app.get('/peliculas/:id', controladorPeliculasId.obtenerPelicula);  
 };
