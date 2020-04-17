@@ -19,8 +19,8 @@ function obtenerPelicula(req, res) {
             };
             let respuesta = {
                 'pelicula': resultado[0],
-                'genero': resultado,
-                'actores': resultadoActores
+                'actores': resultadoActores,
+                'genero': resultado[0].nombre
             };
             res.send(respuesta);
         });
