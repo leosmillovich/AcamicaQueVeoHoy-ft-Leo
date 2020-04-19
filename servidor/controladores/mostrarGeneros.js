@@ -1,7 +1,7 @@
 const conex = require('../lib/conexionbd');
 
 function mostrarGeneros(req, res) {
-
+    //Consulta genero
     let sql = "SELECT * FROM genero";
     
     conex.query(sql, (error, resultado) => {

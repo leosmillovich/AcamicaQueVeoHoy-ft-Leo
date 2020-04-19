@@ -1,18 +1,29 @@
 const conex = require('../lib/conexionbd');
 
 function recomendar(req, res) {
-
+    //Querys
     let anio_inicio = req.query.anio_inicio;
     let anio_fin = req.query.anio_fin;
     let puntuacion = req.query.puntuacion;
     let genero = req.query.genero;
 
-    let sql = "select * from pelicula"//cuando hago join con genero no funciona el boton ver mas
-    let condicion;
-    if ((anio_inicio == 2005) && (anio_fin == 2020)) {
-        condicion = " where anio >= 2005"
-    }
+    //Consulta basica
+    let sql = "SELECT p.id, p.poster, p.trama, p.titulo, g.nombre FROM pelicula p INNER JOIN genero g ON p.genero_id= g.id";
+    let condicion = "";
 
+    //Condiciones recomendacion
+    if (genero) {//Generp
+        condicion = " WHERE g.nombre = '" + genero + "'";
+        if (anio_inicio == 2005) {//Genero + estrenp
+            condicion = " WHERE g.nombre = '" + genero + "' AND anio >= 2005";
+        } else if (anio_inicio == 1900) {//Genero + clasico
+            condicion = " WHERE g.nombre = '" + genero + "' AND anio < 2005";
+        } else if (puntuacion) {//Genero + puntuada
+            condicion = " WHERE g.nombre = '" + genero + "' AND puntuacion >= 7";
+        };
+    };
+
+    //consulta final 
     sql += condicion;
     conex.query(sql, (error, resultado) => {
         if (error) {
@@ -21,7 +32,6 @@ function recomendar(req, res) {
         let respuesta = {
             'peliculas': resultado
         };
-        console.log(respuesta);
         res.send(respuesta);
     });
 };
